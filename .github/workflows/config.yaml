@@ -2,6 +2,8 @@ name: CI for Mattermost Plugins
 
 on:
   push:
+    branches:
+      - master
     tags:
       - 'v*'
   workflow_dispatch:
