@@ -15,20 +15,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install Python 2.7
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python2.7 python2.7-dev
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+
+      - name: Set npm to use Python 2
+        run: npm config set python /usr/bin/python2.7
+
       - name: Set up Node.js 16
         uses: actions/setup-node@v3
         with:
           node-version: '16'
         
-      - name: Install Python 3
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip
-          sudo apt-get install -y python-is-python3  # Устанавливаем связку python -> python3
-
-      - name: Set npm to use Python 3
-        run: npm config set python python3
-
       - name: Install golangci-lint
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.31.0
@@ -70,33 +70,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install Python 2.7
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python2.7 python2.7-dev
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+
+      - name: Set npm to use Python 2
+        run: npm config set python /usr/bin/python2.7
+
       - name: Set up Node.js 16
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-        
-      - name: Install Python 3
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip
-          sudo apt-get install -y python-is-python3
-
-      - name: Set npm to use Python 3
-        run: npm config set python python3
-
-      - name: Restore Go Modules Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/go-build
-            /go/pkg/mod
-          key: go-mod-${{ hashFiles('**/go.sum') }}
-          
-      - name: Restore NPM Cache
-        uses: actions/cache@v3
-        with:
-          path: webapp/node_modules
-          key: npm-${{ hashFiles('webapp/package-lock.json') }}
 
       - name: Install NPM dependencies
         run: cd webapp && npm install --legacy-peer-deps
@@ -110,33 +96,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install Python 2.7
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python2.7 python2.7-dev
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+
+      - name: Set npm to use Python 2
+        run: npm config set python /usr/bin/python2.7
+
       - name: Set up Node.js 16
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-        
-      - name: Install Python 3
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip
-          sudo apt-get install -y python-is-python3
-
-      - name: Set npm to use Python 3
-        run: npm config set python python3
-
-      - name: Restore Go Modules Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/go-build
-            /go/pkg/mod
-          key: go-mod-${{ hashFiles('**/go.sum') }}
-          
-      - name: Restore NPM Cache
-        uses: actions/cache@v3
-        with:
-          path: webapp/node_modules
-          key: npm-${{ hashFiles('webapp/package-lock.json') }}
 
       - name: Install NPM dependencies
         run: cd webapp && npm install --legacy-peer-deps
@@ -165,19 +137,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
+      - name: Install Python 2.7
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python2.7 python2.7-dev
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+
+      - name: Set npm to use Python 2
+        run: npm config set python /usr/bin/python2.7
+
       - name: Set up Node.js 16
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-        
-      - name: Install Python 3
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip
-          sudo apt-get install -y python-is-python3
-
-      - name: Set npm to use Python 3
-        run: npm config set python python3
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
