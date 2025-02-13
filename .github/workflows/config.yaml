@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: circleci/golang:1.16.0-node
+      options: --user root
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
