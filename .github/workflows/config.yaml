@@ -21,7 +21,10 @@ jobs:
           node-version: '16'
         
       - name: Install Python 3
-        run: sudo apt-get update && sudo apt-get install python3 -y
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip
+          sudo apt-get install -y python-is-python3  # Устанавливаем связку python -> python3
 
       - name: Set npm to use Python 3
         run: npm config set python python3
@@ -73,7 +76,10 @@ jobs:
           node-version: '16'
         
       - name: Install Python 3
-        run: sudo apt-get update && sudo apt-get install python3 -y
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip
+          sudo apt-get install -y python-is-python3
 
       - name: Set npm to use Python 3
         run: npm config set python python3
@@ -110,7 +116,10 @@ jobs:
           node-version: '16'
         
       - name: Install Python 3
-        run: sudo apt-get update && sudo apt-get install python3 -y
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip
+          sudo apt-get install -y python-is-python3
 
       - name: Set npm to use Python 3
         run: npm config set python python3
@@ -162,7 +171,10 @@ jobs:
           node-version: '16'
         
       - name: Install Python 3
-        run: sudo apt-get update && sudo apt-get install python3 -y
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip
+          sudo apt-get install -y python-is-python3
 
       - name: Set npm to use Python 3
         run: npm config set python python3
