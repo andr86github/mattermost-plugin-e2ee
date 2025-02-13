@@ -14,6 +14,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Set up Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
         
       - name: Install golangci-lint
         run: |
@@ -34,7 +39,7 @@ jobs:
           key: npm-${{ hashFiles('webapp/package-lock.json') }}
           
       - name: Install NPM dependencies
-        run: cd webapp && npm install
+        run: cd webapp && npm install --legacy-peer-deps
 
       - name: Run linters and style checks
         run: make check-style
@@ -67,6 +72,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
       - name: Restore Go Modules Cache
         uses: actions/cache@v3
         with:
@@ -82,7 +92,7 @@ jobs:
           key: npm-${{ hashFiles('webapp/package-lock.json') }}
 
       - name: Install NPM dependencies
-        run: cd webapp && npm install
+        run: cd webapp && npm install --legacy-peer-deps
 
       - name: Run tests
         run: make test
@@ -93,6 +103,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
       - name: Restore Go Modules Cache
         uses: actions/cache@v3
         with:
@@ -108,7 +123,7 @@ jobs:
           key: npm-${{ hashFiles('webapp/package-lock.json') }}
 
       - name: Install NPM dependencies
-        run: cd webapp && npm install
+        run: cd webapp && npm install --legacy-peer-deps
 
       - name: Build Plugin Bundle
         run: make dist
@@ -133,7 +148,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
+      - name: Set up Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
