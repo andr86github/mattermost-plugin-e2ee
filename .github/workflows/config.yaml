@@ -16,11 +16,37 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
-      - name: Install dependencies
+
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.16'
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Restore Go cache
+        uses: actions/cache@v3
+        with:
+          path: ~/go/pkg/mod
+          key: go-mod-v1-${{ runner.os }}-${{ hashFiles('go.sum') }}
+          restore-keys: |
+            go-mod-v1-${{ runner.os }}-
+
+      - name: Restore npm cache
+        uses: actions/cache@v3
+        with:
+          path: webapp/node_modules
+          key: npm-v1-${{ runner.os }}-${{ hashFiles('webapp/package-lock.json') }}
+          restore-keys: |
+            npm-v1-${{ runner.os }}-
+
+      - name: Install npm dependencies
         run: |
           cd webapp
-          npm install --legacy-peer-deps
+          npm install
 
       - name: Run linters and style checks
         run: make check-style
@@ -46,11 +72,37 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
-      - name: Install dependencies
+
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.16'
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Restore Go cache
+        uses: actions/cache@v3
+        with:
+          path: ~/go/pkg/mod
+          key: go-mod-v1-${{ runner.os }}-${{ hashFiles('go.sum') }}
+          restore-keys: |
+            go-mod-v1-${{ runner.os }}-
+
+      - name: Restore npm cache
+        uses: actions/cache@v3
+        with:
+          path: webapp/node_modules
+          key: npm-v1-${{ runner.os }}-${{ hashFiles('webapp/package-lock.json') }}
+          restore-keys: |
+            npm-v1-${{ runner.os }}-
+
+      - name: Install npm dependencies
         run: |
           cd webapp
-          npm install --legacy-peer-deps
+          npm install
 
       - name: Run tests
         run: make test
@@ -63,10 +115,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.16'
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Restore Go cache
+        uses: actions/cache@v3
+        with:
+          path: ~/go/pkg/mod
+          key: go-mod-v1-${{ runner.os }}-${{ hashFiles('go.sum') }}
+          restore-keys: |
+            go-mod-v1-${{ runner.os }}-
+
+      - name: Restore npm cache
+        uses: actions/cache@v3
+        with:
+          path: webapp/node_modules
+          key: npm-v1-${{ runner.os }}-${{ hashFiles('webapp/package-lock.json') }}
+          restore-keys: |
+            npm-v1-${{ runner.os }}-
+
+      - name: Install npm dependencies
         run: |
           cd webapp
-          npm install --legacy-peer-deps
+          npm install
 
       - name: Build Plugin Bundle
         run: make dist
@@ -78,26 +156,29 @@ jobs:
             git log --pretty='format:- %h %s' --abbrev-commit --no-decorate --no-color $(git rev-list --max-parents=0 HEAD) HEAD >> dist/release-notes.md
           else
             git log --pretty='format:- %h %s' --abbrev-commit --no-decorate --no-color $(git describe --tags --abbrev=0 $(git describe --tags --abbrev=0)^)..HEAD >> dist/release-notes.md
-          
+          fi
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist/*.tar.gz
 
-  deploy:
+  deploy-release-github:
     runs-on: ubuntu-latest
     needs: [lint, test, build]
-    container:
-      image: circleci/golang:1.16.0-node
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           name: dist
+          path: dist
+
+      - name: Install ghr
+        run: go install github.com/tcnksm/ghr@latest
 
       - name: Publish Release on GitHub
         env:
