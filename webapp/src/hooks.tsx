@@ -60,13 +60,13 @@ export default class E2EEHooks {
         registry.registerWebSocketEventHandler('posted', this.onPosted.bind(this));
         registry.registerReconnectHandler(this.onReconnect.bind(this));
 
-        registry.registerChannelHeaderButtonAction(
-            // eslint-disable-next-line react/jsx-filename-extension
-            <Icon/>,
-            this.toggleEncryption.bind(this),
-            'Toggle channel encryption',
-            'Toggle channel encryption',
-        );
+        // registry.registerChannelHeaderButtonAction(
+        //     // eslint-disable-next-line react/jsx-filename-extension
+        //     <Icon/>,
+        //     this.toggleEncryption.bind(this),
+        //     'Toggle channel encryption',
+        //     'Toggle channel encryption',
+        // );
     }
 
     private async onPosted(message: any) {
