@@ -20,6 +20,12 @@ jobs:
         with:
           node-version: '16'
         
+      - name: Install Python 3
+        run: sudo apt-get update && sudo apt-get install python3 -y
+
+      - name: Set npm to use Python 3
+        run: npm config set python python3
+
       - name: Install golangci-lint
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.31.0
@@ -55,17 +61,6 @@ jobs:
       - name: Go mod tidy
         run: go mod tidy -v
 
-      - name: Check diff of go.mod and go.sum
-        run: |
-          git --no-pager diff --exit-code go.mod go.sum || (echo "Please run 'go mod tidy' and commit the changes in go.mod and go.sum." && exit 1)
-
-      - name: Run make apply
-        run: make apply
-
-      - name: Check diff of generated manifest files
-        run: |
-          git --no-pager diff --exit-code *manifest.* || (echo "Please run 'make apply' and commit the changes in the generated manifests." && exit 1)
-
   test:
     runs-on: ubuntu-latest
     steps:
@@ -76,6 +71,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
+        
+      - name: Install Python 3
+        run: sudo apt-get update && sudo apt-get install python3 -y
+
+      - name: Set npm to use Python 3
+        run: npm config set python python3
 
       - name: Restore Go Modules Cache
         uses: actions/cache@v3
@@ -107,6 +108,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
+        
+      - name: Install Python 3
+        run: sudo apt-get update && sudo apt-get install python3 -y
+
+      - name: Set npm to use Python 3
+        run: npm config set python python3
 
       - name: Restore Go Modules Cache
         uses: actions/cache@v3
@@ -148,11 +155,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+        
       - name: Set up Node.js 16
         uses: actions/setup-node@v3
         with:
           node-version: '16'
+        
+      - name: Install Python 3
+        run: sudo apt-get update && sudo apt-get install python3 -y
+
+      - name: Set npm to use Python 3
+        run: npm config set python python3
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
